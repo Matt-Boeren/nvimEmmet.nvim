@@ -1,10 +1,13 @@
 local M = {}
 ---@param trigger string
----@param indent boolean
+---@param indent integer
 local tagTrigger = function(trigger, indent)
     local tag = ""
-    if indent then
-        tag = "\t<" .. trigger .. ">\n\t\t\n\t</" ..trigger.. ">"
+    if indent ~= 0 then
+
+        local ind = string.rep("\t", indent)
+
+        tag = ind .."<" .. trigger .. ">\n".. ind .."\t\n" .. ind .. "</" ..trigger.. ">"
     else
         tag = "<" .. trigger .. ">\n\t\n</" ..trigger.. ">"
     end
@@ -52,18 +55,20 @@ local emmet = function (opts)
 
     local strArray = cmdToArray(command)
 
---    vim.fn.setreg('r', strArray)
---    vim.cmd('put! r')
+ --   vim.fn.setreg('r', strArray)
+ --   vim.cmd('put! r')
     local i = 1
+
+    local indent = 0
     while i <= #strArray do
         if tonumber(strArray[i]) and strArray[i+1] == "*" then
             local number = tonumber(strArray[i])
             local tag = ""
             if i > 1 and strArray[i-1] == ">" then
-                tag = tagTrigger(strArray[i+2], true)
-            else
-                tag = tagTrigger(strArray[i+2], false)
+                indent = indent + 1
             end
+            tag = tagTrigger(strArray[i+2], indent)
+
             local res = tag
             for j = 2, number, 1 do
                 res = res .. "\n" .. tag
@@ -74,7 +79,11 @@ local emmet = function (opts)
             table.insert(resultArray, strArray[i])
             i = i + 1
         else
-            table.insert(resultArray, tagTrigger(strArray[i], false))
+
+            if i > 1 and strArray[i-1] == ">" then
+                indent = indent + 1
+            end
+            table.insert(resultArray, tagTrigger(strArray[i], indent))
             i = i + 1
         end
     end
@@ -83,9 +92,12 @@ local emmet = function (opts)
 --    vim.cmd('put! r')
     local result = ""
     local j = 1
+    indent = 1
     while j <= #resultArray do
         if resultArray[j] == ">" then
-            result = strReplace(result, "\t", resultArray[j+1])
+            local tabs = string.rep("\t", indent)
+            result = strReplace(result, tabs, resultArray[j+1])
+            indent = indent + 1
             j = j + 2
         else
             result = result .. resultArray[j]
