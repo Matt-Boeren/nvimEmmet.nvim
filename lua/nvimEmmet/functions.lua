@@ -4,14 +4,9 @@
 ---@param indent integer
 local tagTrigger = function(trigger, indent)
     local tag = ""
-    if indent ~= 0 then
+    local ind = string.rep("\t", indent)
 
-        local ind = string.rep("\t", indent)
-
-        tag = ind .."<" .. trigger .. ">\n".. ind .."\t\n" .. ind .. "</" ..trigger.. ">"
-    else
-        tag = "<" .. trigger .. ">\n\t\n</" ..trigger.. ">"
-    end
+    tag = ind ..'<' .. trigger .. '>\n'.. ind ..'\t\n' .. ind .. '</' ..trigger.. '>'
 
     return tag
 end
@@ -33,7 +28,6 @@ local strReplace = function (str, pat, rep)
     return str
 end
 
-
 --functions needed in init.lua
 return{
 
@@ -43,11 +37,11 @@ return{
         local lastIndex = 1
         for i = 1, #command do
             local c = command:sub(i,i)
-            if c == ">" or c == "*" then
+            if string.match(">*+", c) then
                 table.insert(strArray, command:sub(lastIndex, i-1))
                 table.insert(strArray, c)
                 lastIndex = i+1
-            elseif i == #command then--if last character
+            elseif i == #command then --if last character
                 table.insert(strArray, command:sub(lastIndex, i))
             end
 
@@ -78,8 +72,11 @@ return{
                 end
                 table.insert(resultArray, res)
                 i = i + 3
-            elseif strArray[i] == ">" then
+            elseif string.match(">+", strArray[i]) then
                 table.insert(resultArray, strArray[i])
+                if string.match("+", strArray[i]) then
+                    indent = 0
+                end
                 i = i + 1
             else
 
@@ -104,6 +101,9 @@ return{
                 local tabs = string.rep("\t", indent)
                 result = strReplace(result, tabs, resultArray[j+1])
                 indent = indent + 1
+                j = j + 2
+            elseif resultArray[j] == "+" then
+                result = result .. "\n" ..resultArray[j+1]
                 j = j + 2
             else
                 result = result .. resultArray[j]
