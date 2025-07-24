@@ -1,12 +1,35 @@
+local attr = require('lua.nvimEmmet.attributes')
+
 --helper functions
 
 ---@param trigger string
 ---@param indent integer
 local tagTrigger = function(trigger, indent)
-    local tag = ""
-    local ind = string.rep("\t", indent)
+    local tag = ''
+    local attributes = {}
+    local attributeString = ''
+    local lastIndex = 1
+    local ind = ""
+    if indent ~= 0 then
+        ind = string.rep("\t", indent)
+    end
+    for i = 1, #trigger do
+        local c = trigger:sub(i,i)
+        if string.match("#:.", c) then
+            table.insert(attributes, trigger:sub(lastIndex, i-1))
+            table.insert(attributes, c)
+            lastIndex = i+1
+        elseif i == #trigger then
+            table.insert(attributes, trigger:sub(lastIndex, i))
+        end
+    end
 
-    tag = ind ..'<' .. trigger .. '>\n'.. ind ..'\t\n' .. ind .. '</' ..trigger.. '>'
+    for i = 2, #attributes, 2 do
+        local res = attr[attributes[i]]
+        attributeString = attributeString .. ' ' .. res .. attributes[i+1] .. '"'
+    end
+
+    tag = ind ..'<' .. attributes[1] .. attributeString ..'>\n'.. ind ..'\t\n' .. ind .. '</' .. attributes[1] .. '>'
 
     return tag
 end
@@ -35,9 +58,10 @@ return{
     cmdToArray = function (command)
         local strArray = {}
         local lastIndex = 1
+        local separators = { [">"] = true, ["+"] = true, ["*"] = true }
         for i = 1, #command do
             local c = command:sub(i,i)
-            if string.match(">*+", c) then
+            if separators[c] then
                 table.insert(strArray, command:sub(lastIndex, i-1))
                 table.insert(strArray, c)
                 lastIndex = i+1
