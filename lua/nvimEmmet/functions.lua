@@ -34,23 +34,6 @@ local tagTrigger = function(trigger, indent)
     return tag
 end
 
-
----@param str string
----@param pat string
----@param rep string
-local strReplace = function (str, pat, rep)
-    local index = #str
-    while index > #pat do
-        local part = str:sub(index-#pat, index - 1)
-        if part == pat then
-            str = string.sub(str, 1, index-#pat - 1) .. rep .. string.sub(str, index, #str)
-            index = 0
-        end
-        index = index -1
-    end
-    return str
-end
-
 --functions needed in init.lua
 return{
 
@@ -123,7 +106,7 @@ return{
         while j <= #resultArray do
             if resultArray[j] == ">" then
                 local tabs = string.rep("\t", indent)
-                result = strReplace(result, tabs, resultArray[j+1])
+                result = string.gsub(result, tabs, resultArray[j+1])
                 indent = indent + 1
                 j = j + 2
             elseif resultArray[j] == "+" then
