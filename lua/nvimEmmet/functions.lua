@@ -1,4 +1,4 @@
-local attr = require('lua.nvimEmmet.attributes')
+local attr = require('nvimEmmet.attributes')
 
 --helper functions
 
