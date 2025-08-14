@@ -6,13 +6,26 @@ local attr = require('nvimEmmet.attributes')
 ---@param indent integer
 local tagTrigger = function(trigger, indent)
     local tag = ''
-    local attributes = {}
-    local attributeString = ''
-    local lastIndex = 1
+
     local ind = ""
     if indent ~= 0 then
         ind = string.rep("\t", indent)
     end
+
+    local txt = ''
+    local open = trigger:find("{")
+    local close = trigger:find("}")
+    if open and close then
+        if close > open then
+            txt = trigger:sub(open+1, close-1)
+            local tempTrigger = trigger:sub(1, open-1) .. trigger:sub(close+1, #trigger)
+            trigger = tempTrigger
+        end
+    end
+
+    local lastIndex = 1
+    local attributes = {}
+    local attributeString = ''
     for i = 1, #trigger do
         local c = trigger:sub(i,i)
         if string.match("#:.", c) then
@@ -29,7 +42,7 @@ local tagTrigger = function(trigger, indent)
         attributeString = attributeString .. ' ' .. res .. attributes[i+1] .. '"'
     end
 
-    tag = ind ..'<' .. attributes[1] .. attributeString ..'>\n'.. ind ..'\t\n' .. ind .. '</' .. attributes[1] .. '>'
+    tag = ind ..'<' .. attributes[1] .. attributeString ..'>\n'.. ind .. '\t' .. txt .. '\n' .. ind .. '</' .. attributes[1] .. '>'
 
     return tag
 end
