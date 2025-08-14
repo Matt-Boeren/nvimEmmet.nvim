@@ -26,6 +26,17 @@ local tagTrigger = function(trigger, indent)
     local lastIndex = 1
     local attributes = {}
     local attributeString = ''
+
+    open = trigger:find("%[")
+    close = trigger:find("%]")
+    if open and close then
+        if close > open then
+            attributeString = ' ' .. trigger:sub(open+1, close-1)
+            local tempTrigger = trigger:sub(1, open-1) .. trigger:sub(close+1, #trigger)
+            trigger = tempTrigger
+        end
+    end
+
     for i = 1, #trigger do
         local c = trigger:sub(i,i)
         if string.match("#:.", c) then
