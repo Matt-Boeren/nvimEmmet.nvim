@@ -89,32 +89,42 @@ return{
 
         local indent = 0
         while i <= #strArray do
-            if tonumber(strArray[i]) and strArray[i+1] == "*" then
-                local number = tonumber(strArray[i])
+            if strArray[i] == "*" then
+                local number
+                local trigger
+                if tonumber(strArray[i-1]) then
+                    number = tonumber(strArray[i-1])
+                    trigger = strArray[i+1]
+                elseif tonumber(strArray[i+1]) then
+                    number = tonumber(strArray[i+1])
+                    trigger = strArray[i-1]
+                end
                 local tag = ""
-                if i > 1 and strArray[i-1] == ">" then
+                if i > 2 and strArray[i-2] == ">" then
                     indent = indent + 1
                 end
-                tag = tagTrigger(strArray[i+2], indent)
+                tag = tagTrigger(trigger, indent)
 
                 local res = tag
                 for j = 2, number, 1 do
                     res = res .. "\n" .. tag
                 end
                 table.insert(resultArray, res)
-                i = i + 3
+                i = i + 2
             elseif string.match(">+", strArray[i]) then
                 table.insert(resultArray, strArray[i])
                 if string.match("+", strArray[i]) then
                     indent = 0
                 end
                 i = i + 1
-            else
+            elseif tonumber(strArray[i]) == nil and strArray[i+1] ~= "*" then
 
                 if i > 1 and strArray[i-1] == ">" then
                     indent = indent + 1
                 end
                 table.insert(resultArray, tagTrigger(strArray[i], indent))
+                i = i + 1
+            else
                 i = i + 1
             end
         end
