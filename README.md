@@ -39,4 +39,18 @@ for example if "div>3*p{item $}" is typed in the file and with the cursor on the
 </div>
 ```
 
-## Install guide
+## Install guide using Packer
+
+In your packer startup add the follwing line:
+```lua
+    use('Matt-Boeren/nvimEmmet.nvim')
+```
+
+Make a new file in after/plugin and add the following content.
+Keymaps can be set how you want.
+```lua
+local Emmet = require('nvimEmmet')
+Emmet.setup()
+vim.keymap.set("n",'<leader>d', Emmet.callFromLine, {desc = "call from line"})
+vim.keymap.set("i",'<C-d>', Emmet.callFromLine, {desc = "call from line"})
+```
