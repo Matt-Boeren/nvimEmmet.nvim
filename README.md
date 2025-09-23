@@ -9,7 +9,7 @@ The plugin can be used in the neovim command line by using the command :Emmet.
 
 This command takes in one argument. This will be what emmet will process to tags.
 This can for example be ":Emmet div>3*p{item $}" the plugin will convert it to the follwing:
-
+```html
 <div>
 	<p>
 		item 1
@@ -21,11 +21,11 @@ This can for example be ":Emmet div>3*p{item $}" the plugin will convert it to t
 		item 3
 	</p>
 </div>
-
+```
 ### Inline of the file
 The plugin can also be used by typing the commands argument inline of the file and hitting a set keymap (see install guide).
 for example if "div>3*p{item $}" is typed in the file and with the cursor on the line the keymap is hit it will convert it to the following:
-
+```html
 <div>
 	<p>
 		item 1
@@ -37,5 +37,6 @@ for example if "div>3*p{item $}" is typed in the file and with the cursor on the
 		item 3
 	</p>
 </div>
+```
 
 ## Install guide
