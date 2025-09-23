@@ -1,12 +1,20 @@
-local attr = require('nvimEmmet.attributes')
-
 --helper functions
+
+local getAttribute = function ()
+    local fileExtention = vim.fn.expand('%:e')
+
+    if fileExtention == 'jsx' or fileExtention == 'tsx' then
+        return require('nvimEmmet.attributesJSX')
+    else
+        return require('nvimEmmet.attributes')
+    end
+end
 
 ---@param trigger string
 ---@param indent integer
 local tagTrigger = function(trigger, indent)
     local tag = ''
-
+    local attr = getAttribute()
     local ind = ""
     if indent ~= 0 then
         ind = string.rep("\t", indent)
