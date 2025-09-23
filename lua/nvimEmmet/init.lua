@@ -25,4 +25,16 @@ function M.setup()
     })
 end
 
+function M.callFromLine()
+
+    local pos = vim.api.nvim_win_get_cursor(0)
+    local row = pos[1]
+    local buf = vim.api.nvim_get_current_buf()
+
+    local command = vim.api.nvim_get_current_line()
+    command = command:match("^%s*(.-)%s*$")
+    vim.api.nvim_buf_set_lines(buf, row - 1, row, false, {})
+    emmet({ args = command})
+end
+
 return M
