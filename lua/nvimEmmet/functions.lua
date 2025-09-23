@@ -1,4 +1,5 @@
 --helper functions
+local specials = require('nvimEmmet.specials')
 
 local getAttribute = function ()
     local fileExtention = vim.fn.expand('%:e')
@@ -60,8 +61,21 @@ local tagTrigger = function(trigger, indent)
         local res = attr[attributes[i]]
         attributeString = attributeString .. ' ' .. res .. attributes[i+1] .. '"'
     end
-
-    tag = ind ..'<' .. attributes[1] .. attributeString ..'>\n'.. ind .. '\t' .. txt .. '\n' .. ind .. '</' .. attributes[1] .. '>'
+    local special = specials[attributes[1]]
+    if special then
+        tag = ind
+        for i = 1, #special, 1 do
+            if i == 3 then
+                tag = tag .. '\n'.. ind .. '\t' .. txt .. '\n' .. ind
+            end
+            tag = tag .. special[i]
+            if i == 1 then
+                tag = tag .. attributeString
+            end
+        end
+    else
+        tag = ind ..'<' .. attributes[1] .. attributeString ..'>\n'.. ind .. '\t' .. txt .. '\n' .. ind .. '</' .. attributes[1] .. '>'
+    end
 
     return tag
 end
