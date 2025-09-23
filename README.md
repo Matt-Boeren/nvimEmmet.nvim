@@ -1,30 +1,16 @@
 # NvimEmmet
-!Warning plugin is developed to learn how neovim plugins work!
-It can be that not all functions of the original emmet are included nor work the same.
+
+> **Warning:** This plugin is developed to learn how Neovim plugins work!  
+> Not all functions of the original Emmet are included, nor do they necessarily work the same.
 
 ## Usage
 
-### In neovim command line
-The plugin can be used in the neovim command line by using the command :Emmet.
+### In Neovim Command Line
 
-This command takes in one argument. This will be what emmet will process to tags.
-This can for example be ":Emmet div>3*p{item $}" the plugin will convert it to the follwing:
-```html
-<div>
-	<p>
-		item 1
-	</p>
-	<p>
-		item 2
-	</p>
-	<p>
-		item 3
-	</p>
-</div>
-```
-### Inline of the file
-The plugin can also be used by typing the commands argument inline of the file and hitting a set keymap (see install guide).
-for example if "div>3*p{item $}" is typed in the file and with the cursor on the line the keymap is hit it will convert it to the following:
+The plugin can be used in the Neovim command line by using the command `:Emmet`.
+
+This command takes in one argument, which is what Emmet will process into tags.  
+For example, `:Emmet div>3*p{item $}` will convert to the following:
 ```html
 <div>
 	<p>
@@ -39,18 +25,36 @@ for example if "div>3*p{item $}" is typed in the file and with the cursor on the
 </div>
 ```
 
-## Install guide using Packer
+### Inline in the File
 
-In your packer startup add the follwing line:
+The plugin can also be used by typing the argument inline in the file and hitting a set keymap (see install guide).  
+For example, if `div>3*p{item $}` is typed in the file, and with the cursor on the line, the keymap is hit, it will convert to:
+```html
+<div>
+	<p>
+		item 1
+	</p>
+	<p>
+		item 2
+	</p>
+	<p>
+		item 3
+	</p>
+</div>
+```
+
+## Install Guide Using Packer
+
+In your packer startup, add the following line:
 ```lua
-    use('Matt-Boeren/nvimEmmet.nvim')
+use('Matt-Boeren/nvimEmmet.nvim')
 ```
 
-Make a new file in after/plugin and add the following content.
-Keymaps can be set how you want.
+Create a new file in `after/plugin` and add the following content.  
+Keymaps can be set as you prefer.
 ```lua
 local Emmet = require('nvimEmmet')
 Emmet.setup()
-vim.keymap.set("n",'<leader>d', Emmet.callFromLine, {desc = "call from line"})
-vim.keymap.set("i",'<C-d>', Emmet.callFromLine, {desc = "call from line"})
+vim.keymap.set("n", '<leader>d', Emmet.callFromLine, {desc = "call from line"})
+vim.keymap.set("i", '<C-d>', Emmet.callFromLine, {desc = "call from line"})
 ```
