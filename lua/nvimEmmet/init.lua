@@ -33,6 +33,7 @@ function M.callFromLine()
 
     local command = vim.api.nvim_get_current_line()
     command = command:match("^%s*(.-)%s*$")
+    vim.api.nvim_buf_set_lines(buf, row, row, false, {""})
     vim.api.nvim_buf_set_lines(buf, row - 1, row, false, {})
     emmet({ args = command})
 end
