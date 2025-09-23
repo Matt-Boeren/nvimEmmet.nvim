@@ -111,20 +111,26 @@ return{
                 if i > 2 and strArray[i-2] == ">" then
                     indent = indent + 1
                 end
-                tag = tagTrigger(trigger, indent)
 
-                local res = tag
-                for j = 2, number, 1 do
+                local res = ""
+                for j = 1, number, 1 do
+                    local useTrigger = trigger
+                    if string.match(trigger, "%$") then
+                        useTrigger = string.gsub(trigger, '%$', j)
+                    end
+                    tag = tagTrigger(useTrigger, indent)
                     res = res .. "\n" .. tag
                 end
                 table.insert(resultArray, res)
                 i = i + 2
+
             elseif string.match(">+", strArray[i]) then
                 table.insert(resultArray, strArray[i])
                 if string.match("+", strArray[i]) then
                     indent = 0
                 end
                 i = i + 1
+
             elseif tonumber(strArray[i]) == nil and strArray[i+1] ~= "*" then
 
                 if i > 1 and strArray[i-1] == ">" then
