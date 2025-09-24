@@ -133,7 +133,11 @@ return{
                         useTrigger = string.gsub(trigger, '%$', j)
                     end
                     tag = tagTrigger(useTrigger, indent)
-                    res = res .. "\n" .. tag
+                    if j == 1 then
+                        res = tag
+                    else
+                        res = res .. "\n" .. tag
+                    end
                 end
                 table.insert(resultArray, res)
                 i = i + 2
