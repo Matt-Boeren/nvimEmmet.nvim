@@ -3,6 +3,17 @@
 > **Warning:** This plugin is developed to learn how Neovim plugins work!  
 > Not all functions of the original Emmet are included, nor do they necessarily work the same.
 
+This plugin is used to write tagged languages faster.
+
+Currently, only HTML and JSX (React) are fully supported with their special cases (void elements and mandatory attributes).
+
+For other tagged languages, by default this plugin will tag every input as follows:
+`exampleTag` will be converted to:
+```
+<ExampleTag>
+	
+</ExampleTag>
+```
 ## Usage
 
 ### In Neovim Command Line
