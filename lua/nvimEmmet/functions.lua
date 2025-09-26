@@ -1,5 +1,4 @@
 --helper functions
-local specials = require('nvimEmmet.specials')
 
 local getAttribute = function ()
     local fileExtention = vim.fn.expand('%:e')
@@ -10,37 +9,48 @@ local getAttribute = function ()
         return require('nvimEmmet.attributes')
     end
 end
+local getSpecials = function ()
+    local fileExtention = vim.fn.expand('%:e')
+
+    if fileExtention == 'jsx' or fileExtention == 'tsx' then
+        return require('nvimEmmet.specialsJSX')
+    else
+        return require('nvimEmmet.specials')
+    end
+end
 
 ---@param trigger string
 ---@param indent integer
 local tagTrigger = function(trigger, indent)
     local tag = ''
     local attr = getAttribute()
+    local specials = getSpecials()
     local ind = ""
     if indent ~= 0 then
         ind = string.rep("\t", indent)
     end
 
-    local txt = ''
-    local open = trigger:find("{")
-    local close = trigger:find("}")
-    if open and close then
-        if close > open then
-            txt = trigger:sub(open+1, close-1)
-            local tempTrigger = trigger:sub(1, open-1) .. trigger:sub(close+1, #trigger)
-            trigger = tempTrigger
-        end
-    end
 
     local lastIndex = 1
     local attributes = {}
     local attributeString = ''
 
-    open = trigger:find("%[")
-    close = trigger:find("%]")
+    local open = trigger:find("%[")
+    local close = trigger:find("%]")
     if open and close then
         if close > open then
             attributeString = ' ' .. trigger:sub(open+1, close-1)
+            local tempTrigger = trigger:sub(1, open-1) .. trigger:sub(close+1, #trigger)
+            trigger = tempTrigger
+        end
+    end
+
+    local txt = ''
+    open = trigger:find("{")
+    close = trigger:find("}")
+    if open and close then
+        if close > open then
+            txt = trigger:sub(open+1, close-1)
             local tempTrigger = trigger:sub(1, open-1) .. trigger:sub(close+1, #trigger)
             trigger = tempTrigger
         end
