@@ -81,8 +81,13 @@ local tagTrigger = function(trigger, indent)
 
     for i = 2, #attributes, 2 do
         local res = attr[attributes[i]]
-        attributeString = attributeString .. ' ' .. res .. attributes[i+1] .. '"'
+        local val = attributes[i + 1]
+
+        if res and val then
+            attributeString = attributeString .. ' ' .. res .. val .. '"'
+        end
     end
+
     local special = specials[attributes[1]]
     if special then
         tag = ind
