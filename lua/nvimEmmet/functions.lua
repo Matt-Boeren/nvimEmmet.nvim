@@ -70,7 +70,7 @@ local tagTrigger = function(trigger, indent)
     local matchString = getMatchString()
     for i = 1, #trigger do
         local c = trigger:sub(i,i)
-        if string.match(matchString, c) then
+        if string.match( "[" .. matchString .. "]", c) then
             table.insert(attributes, trigger:sub(lastIndex, i-1))
             table.insert(attributes, c)
             lastIndex = i+1

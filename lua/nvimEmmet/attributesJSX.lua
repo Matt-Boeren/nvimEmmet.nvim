@@ -1,6 +1,4 @@
-
 return {
-
     getAttributes = function ()
         return {
             ["#"] = 'id="',
