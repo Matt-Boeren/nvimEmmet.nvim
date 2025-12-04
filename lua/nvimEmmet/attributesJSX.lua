@@ -4,11 +4,11 @@ return {
     getAttributes = function ()
         return {
             ["#"] = 'id="',
-            ["+"] = 'className="',
+            ["?"] = 'className="',
             [":"] = 'type="'
         }
     end,
     getMatchString = function ()
-        return "#+:"
+        return "#?:"
     end
 }
