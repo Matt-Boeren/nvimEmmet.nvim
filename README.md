@@ -16,7 +16,7 @@ For other tagged languages, by default this plugin will tag every input as follo
 ```
 ## Usage
 
-### In Neovim Command Line
+### In neovim command line
 
 The plugin can be used in the Neovim command line by using the command `:Emmet`.
 
@@ -36,7 +36,7 @@ For example, `:Emmet div>3*p{item $}` will convert to the following:
 </div>
 ```
 
-### Inline in the File
+### Inline in the file
 
 The plugin can also be used by typing the argument inline in the file and hitting a set keymap (see install guide).  
 For example, if `div>3*p{item $}` is typed in the file, and with the cursor on the line, the keymap is hit, it will convert to:
@@ -55,7 +55,7 @@ For example, if `div>3*p{item $}` is typed in the file, and with the cursor on t
 ```
 
 
-### Special Case in React  
+### Special case in React  
 In React sometimes tags are used with a “.”, for example `<Card.body></Card.body>`. Because of this, the dot symbol can’t be used to instantiate a className. For this reason, the “.” is replaced with a “?”.  
 
 For example, the trigger `Card.body?Classname` in a JSX or TSX file will convert to:
@@ -66,7 +66,7 @@ For example, the trigger `Card.body?Classname` in a JSX or TSX file will convert
 </Card.body>
 ```
 
-## Install Guide Using Packer
+## Install guide using packer
 
 In your packer startup, add the following line:
 ```lua
