@@ -10,9 +10,9 @@ Currently, only HTML and JSX (React) are fully supported with their special case
 For other tagged languages, by default this plugin will tag every input as follows:
 `exampleTag` will be converted to:
 ```
-<ExampleTag>
+<exampleTag>
 	
-</ExampleTag>
+</exampleTag>
 ```
 ## Usage
 
