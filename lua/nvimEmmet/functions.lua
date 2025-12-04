@@ -4,11 +4,22 @@ local getAttribute = function ()
     local fileExtention = vim.fn.expand('%:e')
 
     if fileExtention == 'jsx' or fileExtention == 'tsx' then
-        return require('nvimEmmet.attributesJSX')
+        return require('nvimEmmet.attributesJSX').getAttributes()
     else
-        return require('nvimEmmet.attributes')
+        return require('nvimEmmet.attributes').getAttributes()
     end
 end
+
+local getMatchString = function ()
+    local fileExtention = vim.fn.expand('%:e')
+
+    if fileExtention == 'jsx' or fileExtention == 'tsx' then
+        return require('nvimEmmet.attributesJSX').getMatchString()
+    else
+        return require('nvimEmmet.attributes').getMatchString()
+    end
+end
+
 local getSpecials = function ()
     local fileExtention = vim.fn.expand('%:e')
 
@@ -56,9 +67,10 @@ local tagTrigger = function(trigger, indent)
         end
     end
 
+    local matchString = getMatchString()
     for i = 1, #trigger do
         local c = trigger:sub(i,i)
-        if string.match("#:.", c) then
+        if string.match(matchString, c) then
             table.insert(attributes, trigger:sub(lastIndex, i-1))
             table.insert(attributes, c)
             lastIndex = i+1
