@@ -54,6 +54,18 @@ For example, if `div>3*p{item $}` is typed in the file, and with the cursor on t
 </div>
 ```
 
+
+### Special Case in React  
+In React sometimes tags are used with a “.”, for example `<Card.body></Card.body>`. Because of this, the dot symbol can’t be used to instantiate a className. For this reason, the “.” is replaced with a “?”.  
+
+For example, the trigger `Card.body?Classname` in a JSX or TSX file will convert to:
+
+```tsx
+<Card.body className="className">
+	
+</Card.body>
+```
+
 ## Install Guide Using Packer
 
 In your packer startup, add the following line:
